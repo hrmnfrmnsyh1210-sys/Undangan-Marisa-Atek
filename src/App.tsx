@@ -62,6 +62,34 @@ const DayakBorder = ({ className = "" }: { className?: string }) => (
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [copiedRekening, setCopiedRekening] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const targetDate = new Date('2026-07-06T08:00:00').getTime();
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000),
+        });
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Auto-scroll to top when opened
   useEffect(() => {
@@ -89,7 +117,7 @@ export default function App() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, y: '-100%' }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-50 flex flex-col justify-between items-center bg-brand-bg text-brand-cream overflow-hidden"
+            className="fixed inset-0 z-50 flex flex-col justify-between items-center bg-brand-bg text-brand-cream overflow-y-auto"
           >
             {/* Top Border */}
             <DayakBorder className="w-full h-10 md:h-12 text-brand-gold shrink-0 mt-4" />
@@ -205,7 +233,23 @@ export default function App() {
                   <p className="font-serif text-lg tracking-widest text-brand-gold my-4">DAN</p>
                   <h1 className="font-script text-6xl md:text-8xl text-brand-cream mt-4">Atek</h1>
                 </div>
-                <p className="font-sans text-lg tracking-widest uppercase mt-12 text-brand-cream/80 border-b border-brand-gold/40 inline-block pb-2">Senin, 06 Juli 2026</p>
+                <p className="font-sans text-lg tracking-widest uppercase mt-12 text-brand-cream/80 border-b border-brand-gold/40 inline-block pb-2 mb-8">Senin, 06 Juli 2026</p>
+                
+                <div className="flex justify-center gap-4 mt-8">
+                  {[
+                    { label: 'Hari', value: timeLeft.days },
+                    { label: 'Jam', value: timeLeft.hours },
+                    { label: 'Menit', value: timeLeft.minutes },
+                    { label: 'Detik', value: timeLeft.seconds },
+                  ].map((item, index) => (
+                    <div key={index} className="flex flex-col items-center">
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-brand-gold flex items-center justify-center bg-brand-red/10 text-brand-gold font-serif text-2xl md:text-3xl">
+                        {item.value.toString().padStart(2, '0')}
+                      </div>
+                      <span className="text-xs md:text-sm uppercase tracking-widest mt-3 text-brand-cream/70 font-sans">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
              </motion.div>
           </div>
         </section>
@@ -546,13 +590,16 @@ export default function App() {
           </div>
           <ChineseLantern className="absolute top-0 left-6 md:left-20 w-16 md:w-24 h-auto text-brand-red opacity-40 z-0 pointer-events-none translate-y-1/4" />
           <ChineseLantern className="absolute top-0 right-6 md:right-20 w-16 md:w-24 h-auto text-brand-red opacity-40 z-0 pointer-events-none translate-y-1/4" />
-          <div className="max-w-2xl mx-auto relative z-10">
+          <div className="max-w-2xl mx-auto relative z-10 pb-8">
             <h4 className="font-serif text-sm tracking-[0.2em] uppercase text-brand-gold mb-6">Terima Kasih</h4>
             <p className="font-serif text-lg text-brand-cream/80 leading-relaxed mb-10">
               Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kami.
             </p>
             <h1 className="font-script text-5xl mb-4 text-brand-gold">Marisa &amp; Atek</h1>
-            <p className="font-serif text-sm tracking-widest text-brand-cream/60">THANK YOU</p>
+            <p className="font-serif text-sm tracking-widest text-brand-cream/60 mb-12">THANK YOU</p>
+            <p className="font-sans text-xs text-brand-cream/40">
+              Undangan dibuat oleh <a href="https://www.instagram.com/uneeddeveloper/" target="_blank" rel="noreferrer" className="text-brand-gold hover:underline">@uneeddeveloper</a>
+            </p>
           </div>
         </section>
       </div>
