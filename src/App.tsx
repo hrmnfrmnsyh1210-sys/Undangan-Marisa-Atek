@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Heart, Calendar, MapPin, Gift, Copy, Check, Clock } from 'lucide-react';
+import { Heart, Calendar, MapPin, Gift, Copy, Check, Clock, Volume2, VolumeX } from 'lucide-react';
+import ReactPlayer from 'react-player';
 
 const HornbillCorner = ({ className = "", style = {} }: { className?: string, style?: React.CSSProperties }) => (
   <svg className={className} style={style} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,6 +62,7 @@ const DayakBorder = ({ className = "" }: { className?: string }) => (
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [copiedRekening, setCopiedRekening] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -70,7 +72,7 @@ export default function App() {
   });
 
   useEffect(() => {
-    const targetDate = new Date('2026-07-06T08:00:00').getTime();
+    const targetDate = new Date('2026-06-26T17:00:00').getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -95,6 +97,7 @@ export default function App() {
   useEffect(() => {
     if (isOpen) {
       window.scrollTo(0, 0);
+      setIsPlaying(true);
     }
   }, [isOpen]);
 
@@ -205,6 +208,27 @@ export default function App() {
       {/* Main Content Area - Only visible when open */}
       <div className={`transition-opacity duration-1000 ${isOpen ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
         
+        {isOpen && (
+          <>
+            <ReactPlayer
+              url="https://youtu.be/zeip_QOwnAw?si=r-j3XkE6r8IqCECh"
+              playing={isPlaying}
+              loop={true}
+              width="0"
+              height="0"
+              volume={0.5}
+              style={{ display: 'none' }}
+              playsinline
+            />
+            <button
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/50 rounded-full flex items-center justify-center text-brand-gold shadow-lg hover:bg-brand-gold/40 transition-colors animate-pulse"
+            >
+              {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+            </button>
+          </>
+        )}
+
         {/* HERO SECTION */}
         <section className="relative min-h-screen flex items-center justify-center py-20 px-4 md:px-6 bg-brand-bg overflow-hidden text-brand-cream border-t border-brand-gold/20">
           <HornbillCorner className="absolute top-0 right-0 w-32 h-32 md:w-64 md:h-64 text-brand-gold opacity-10 pointer-events-none rotate-180" />
@@ -233,7 +257,7 @@ export default function App() {
                   <p className="font-serif text-lg tracking-widest text-brand-gold my-4">DAN</p>
                   <h1 className="font-script text-6xl md:text-8xl text-brand-cream mt-4">Atek</h1>
                 </div>
-                <p className="font-sans text-lg tracking-widest uppercase mt-12 text-brand-cream/80 border-b border-brand-gold/40 inline-block pb-2 mb-8">Senin, 06 Juli 2026</p>
+                <p className="font-sans text-lg tracking-widest uppercase mt-12 text-brand-cream/80 border-b border-brand-gold/40 inline-block pb-2 mb-8">Jumat, 26 Juni 2026</p>
                 
                 <div className="flex justify-center gap-4 mt-8">
                   {[
@@ -404,7 +428,7 @@ export default function App() {
                 Wedding Events
               </motion.h2>
 
-              <div className="grid lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 {/* Tunangan */}
                 <motion.div 
                     initial="hidden"
@@ -417,12 +441,13 @@ export default function App() {
                   <Calendar className="w-8 h-8 text-brand-gold mb-6 mt-8" />
                   <h3 className="font-serif text-2xl mb-4 text-brand-cream">Tunangan</h3>
                   <div className="w-full h-[1px] bg-brand-gold/20 mb-6"></div>
-                  <div className="space-y-4 text-sm font-sans text-brand-cream/80">
-                    <p className="font-semibold text-brand-gold text-base">Jumat, 26 Juni 2026</p>
+                  <div className="space-y-4 text-sm font-sans text-brand-cream/80 flex flex-col items-center">
+                    <p className="font-semibold text-brand-gold text-base flex items-center gap-2"><Calendar className="w-4 h-4"/> Kamis, 25 Juni 2026</p>
+                    <p className="font-medium text-brand-cream/80 flex items-center gap-2"><Clock className="w-4 h-4"/> 19:00 WIB - Selesai</p>
                   </div>
                 </motion.div>
 
-                {/* Akad Nikah */}
+                {/* Nikah Adat */}
                 <motion.div 
                     initial="hidden"
                     whileInView="visible"
@@ -437,33 +462,13 @@ export default function App() {
                   </div>
 
                   <Heart className="w-8 h-8 text-brand-bg mb-6 mt-2 relative z-10" />
-                  <h3 className="font-serif text-2xl mb-4 text-brand-bg relative z-10">Akad Nikah</h3>
+                  <h3 className="font-serif text-2xl mb-4 text-brand-bg relative z-10">Nikah Adat</h3>
                   <div className="w-full h-[1px] bg-brand-bg/20 mb-6"></div>
                   <div className="space-y-4 text-sm font-sans text-brand-bg/90 flex flex-col items-center font-medium">
-                    <p className="font-bold flex items-center gap-2"><Calendar className="w-4 h-4"/> Senin, 06 Juli 2026</p>
+                    <p className="font-bold flex items-center gap-2"><Calendar className="w-4 h-4"/> Jumat, 26 Juni 2026</p>
+                    <p className="font-bold flex items-center gap-2"><Clock className="w-4 h-4"/> 17:00 WIB - Selesai</p>
                     <p className="flex justify-center items-start gap-2 max-w-[200px] mx-auto text-center opacity-80">
-                      <MapPin className="w-4 h-4 shrink-0 mt-1"/> Sepok Pangkalan
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Resepsi */}
-                <motion.div 
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, delay: 0.4 }}
-                    variants={fadeUpVariant}
-                    className="bg-brand-bg p-8 shadow-xl border border-brand-gold/30 flex flex-col items-center relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500 rounded-lg"
-                >
-                  <div className="absolute bottom-0 left-0 w-full h-2 bg-brand-gold"></div>
-                  <Clock className="w-8 h-8 text-brand-gold mb-6 mt-8" />
-                  <h3 className="font-serif text-2xl mb-4 text-brand-cream">Resepsi</h3>
-                  <div className="w-full h-[1px] bg-brand-gold/20 mb-6"></div>
-                  <div className="space-y-4 text-sm font-sans text-brand-cream/80 flex flex-col items-center mb-8">
-                    <p className="font-semibold text-brand-gold text-base flex items-center gap-2"><Calendar className="w-4 h-4"/> Senin, 06 Juli 2026</p>
-                    <p className="font-medium text-brand-cream flex items-center gap-2"><Clock className="w-4 h-4"/> 14.00 WIB - Selesai</p>
-                    <p className="flex justify-center items-start gap-2 max-w-[200px] mx-auto text-center opacity-80">
-                      <MapPin className="w-4 h-4 shrink-0 mt-1"/> Sepok Pangkalan
+                      <MapPin className="w-4 h-4 shrink-0 mt-1"/> Tapang tomat
                     </p>
                   </div>
                 </motion.div>
@@ -511,13 +516,13 @@ export default function App() {
                 
                 <div className="text-center p-8 relative z-10">
                    <MapPin className="w-12 h-12 text-brand-gold/80 mx-auto mb-4" />
-                   <p className="text-brand-cream/80 italic font-serif text-xl">"Sepok Pangkalan" Map Area</p>
+                   <p className="text-brand-cream/80 italic font-serif text-xl">"Tapang Tomat" Map Area</p>
                    <p className="text-xs text-brand-cream/40 mt-2">(Klik tombol di bawah untuk melihat rute)</p>
                 </div>
               </motion.div>
 
               <motion.a 
-                href="https://maps.app.goo.gl/V24rrbgYzxudkk1b6"
+                href="https://maps.app.goo.gl/5Yz8dwtP3m4aLxfE6"
                 target="_blank"
                 rel="noreferrer"
                 initial="hidden"
