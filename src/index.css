@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #29080A;
+  --color-brand-red: #520F0F;
+  --color-brand-gold: #DEB853;
+  --color-brand-cream: #FDF9F1;
+  --font-serif: 'Cinzel', serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-sans: 'Inter', sans-serif;
+}
+
+body {
+  @apply font-sans bg-brand-bg text-brand-cream;
+}
+
+/* Custom ornamental border inspired by a mix of geometric (Dayak) and knots (Chinese) */
+.ornament-border {
+  border: 2px solid var(--color-brand-gold);
+  padding: 1rem;
+  position: relative;
+}
+
+.ornament-border::before,
+.ornament-border::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-brand-gold);
+}
+
+.ornament-border::before {
+  top: -6px;
+  left: -6px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.ornament-border::after {
+  bottom: -6px;
+  right: -6px;
+  border-left: none;
+  border-top: none;
+}
