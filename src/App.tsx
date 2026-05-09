@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import YouTube, { YouTubeEvent, YouTubePlayer } from 'react-youtube';
 import { motion, AnimatePresence } from 'motion/react';
 import { Heart, Calendar, MapPin, Gift, Copy, Check, Clock, Volume2, VolumeX } from 'lucide-react';
-import ReactPlayer from 'react-player';
+
+const DATA = {
+  youtubeId: "zeip_QOwnAw"
+};
 
 const HornbillCorner = ({ className = "", style = {} }: { className?: string, style?: React.CSSProperties }) => (
   <svg className={className} style={style} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +67,23 @@ const DayakBorder = ({ className = "" }: { className?: string }) => (
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const playerRef = useRef<YouTubePlayer | null>(null);
+  
+  const onPlayerReady = (event: YouTubeEvent) => {
+    playerRef.current = event.target;
+    event.target.setVolume(50);
+  };
+  
+  const togglePlay = () => {
+    if (isPlaying) {
+      playerRef.current?.pauseVideo();
+      setIsPlaying(false);
+    } else {
+      playerRef.current?.playVideo();
+      setIsPlaying(true);
+    }
+  };
+  
   const [copiedRekening, setCopiedRekening] = useState(false);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -187,6 +208,9 @@ export default function App() {
                 onClick={() => {
                   setIsOpen(true);
                   setIsPlaying(true);
+                  if (playerRef.current) {
+                    playerRef.current.playVideo();
+                  }
                 }}
                 className="mt-6 px-8 py-3 bg-brand-red text-brand-gold border border-brand-gold font-semibold uppercase tracking-widest text-sm hover:bg-brand-gold hover:text-brand-bg transition-colors duration-300 rounded-sm shadow-lg shadow-black/20"
               >
@@ -209,23 +233,20 @@ export default function App() {
 
       {/* Background Music Player - Always mounted so it is ready when play is triggered */}
       <div className="fixed -left-[500px] -top-[500px] z-0">
-        <ReactPlayer
-          url="https://www.youtube.com/watch?v=zeip_QOwnAw"
-          playing={isPlaying}
-          loop={true}
-          width="200px"
-          height="200px"
-          volume={0.5}
-          playsinline
-          config={{
-            youtube: {
-              playerVars: { 
-                autoplay: 1, 
-                controls: 0,
-                origin: typeof window !== 'undefined' ? window.location.origin : ''
-              }
-            }
+        <YouTube
+          videoId={DATA.youtubeId}
+          opts={{
+            height: '200',
+            width: '200',
+            playerVars: {
+              autoplay: 1,
+              controls: 0,
+              loop: 1,
+              playlist: DATA.youtubeId,
+              origin: typeof window !== 'undefined' ? window.location.origin : ''
+            },
           }}
+          onReady={onPlayerReady}
         />
       </div>
 
@@ -234,7 +255,7 @@ export default function App() {
 
         {isOpen && (
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={togglePlay}
             className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/50 rounded-full flex items-center justify-center text-brand-gold shadow-lg hover:bg-brand-gold/40 transition-colors animate-pulse"
           >
             {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
