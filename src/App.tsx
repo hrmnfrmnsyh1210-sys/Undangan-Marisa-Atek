@@ -211,14 +211,19 @@ export default function App() {
         {isOpen && (
           <>
             <ReactPlayer
-              url="https://youtu.be/zeip_QOwnAw?si=r-j3XkE6r8IqCECh"
+              url="https://www.youtube.com/watch?v=zeip_QOwnAw"
               playing={isPlaying}
               loop={true}
-              width="0"
-              height="0"
+              width="10px"
+              height="10px"
               volume={0.5}
-              style={{ display: 'none' }}
+              className="absolute opacity-0 pointer-events-none -z-50"
               playsinline
+              config={{
+                youtube: {
+                  playerVars: { autoplay: 1, controls: 0 }
+                }
+              }}
             />
             <button
               onClick={() => setIsPlaying(!isPlaying)}
