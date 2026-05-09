@@ -214,14 +214,18 @@ export default function App() {
           url="https://www.youtube.com/watch?v=zeip_QOwnAw"
           playing={isPlaying}
           loop={true}
-          width="10px"
-          height="10px"
+          width="100px"
+          height="100px"
           volume={0.5}
-          className="fixed top-0 left-0 opacity-0 pointer-events-none -z-50"
+          className="fixed -top-[9999px] -left-[9999px] pointer-events-none"
           playsinline
           config={{
             youtube: {
-              playerVars: { autoplay: 1, controls: 0 }
+              playerVars: { 
+                autoplay: 1, 
+                controls: 0,
+                origin: typeof window !== 'undefined' ? window.location.origin : ''
+              }
             }
           }}
         />
