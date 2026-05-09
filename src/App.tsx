@@ -97,7 +97,6 @@ export default function App() {
   useEffect(() => {
     if (isOpen) {
       window.scrollTo(0, 0);
-      setIsPlaying(true);
     }
   }, [isOpen]);
 
@@ -185,7 +184,10 @@ export default function App() {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                  setIsOpen(true);
+                  setIsPlaying(true);
+                }}
                 className="mt-6 px-8 py-3 bg-brand-red text-brand-gold border border-brand-gold font-semibold uppercase tracking-widest text-sm hover:bg-brand-gold hover:text-brand-bg transition-colors duration-300 rounded-sm shadow-lg shadow-black/20"
               >
                 Buka Undangan
@@ -208,30 +210,29 @@ export default function App() {
       {/* Main Content Area - Only visible when open */}
       <div className={`transition-opacity duration-1000 ${isOpen ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
         
+        <ReactPlayer
+          url="https://www.youtube.com/watch?v=zeip_QOwnAw"
+          playing={isPlaying}
+          loop={true}
+          width="10px"
+          height="10px"
+          volume={0.5}
+          className="fixed top-0 left-0 opacity-0 pointer-events-none -z-50"
+          playsinline
+          config={{
+            youtube: {
+              playerVars: { autoplay: 1, controls: 0 }
+            }
+          }}
+        />
+
         {isOpen && (
-          <>
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=zeip_QOwnAw"
-              playing={isPlaying}
-              loop={true}
-              width="10px"
-              height="10px"
-              volume={0.5}
-              className="absolute opacity-0 pointer-events-none -z-50"
-              playsinline
-              config={{
-                youtube: {
-                  playerVars: { autoplay: 1, controls: 0 }
-                }
-              }}
-            />
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/50 rounded-full flex items-center justify-center text-brand-gold shadow-lg hover:bg-brand-gold/40 transition-colors animate-pulse"
-            >
-              {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-            </button>
-          </>
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="fixed bottom-6 right-6 z-50 w-12 h-12 bg-brand-gold/20 backdrop-blur-md border border-brand-gold/50 rounded-full flex items-center justify-center text-brand-gold shadow-lg hover:bg-brand-gold/40 transition-colors animate-pulse"
+          >
+            {isPlaying ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+          </button>
         )}
 
         {/* HERO SECTION */}
