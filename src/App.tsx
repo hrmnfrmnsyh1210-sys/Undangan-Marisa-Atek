@@ -210,25 +210,28 @@ export default function App() {
       {/* Main Content Area - Only visible when open */}
       <div className={`transition-opacity duration-1000 ${isOpen ? 'opacity-100' : 'opacity-0 h-0 overflow-hidden'}`}>
         
-        <ReactPlayer
-          url="https://www.youtube.com/watch?v=zeip_QOwnAw"
-          playing={isPlaying}
-          loop={true}
-          width="100px"
-          height="100px"
-          volume={0.5}
-          className="fixed -top-[9999px] -left-[9999px] pointer-events-none"
-          playsinline
-          config={{
-            youtube: {
-              playerVars: { 
-                autoplay: 1, 
-                controls: 0,
-                origin: typeof window !== 'undefined' ? window.location.origin : ''
-              }
-            }
-          }}
-        />
+        {isOpen && (
+          <div className="fixed bottom-0 right-0 w-[1px] h-[1px] overflow-hidden opacity-0 pointer-events-none z-0">
+            <ReactPlayer
+              url="https://www.youtube.com/watch?v=zeip_QOwnAw"
+              playing={isPlaying}
+              loop={true}
+              width="100px"
+              height="100px"
+              volume={0.5}
+              playsinline
+              config={{
+                youtube: {
+                  playerVars: { 
+                    autoplay: 1, 
+                    controls: 0,
+                    origin: typeof window !== 'undefined' ? window.location.origin : ''
+                  }
+                }
+              }}
+            />
+          </div>
+        )}
 
         {isOpen && (
           <button
