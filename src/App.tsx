@@ -333,7 +333,7 @@ export default function App() {
                   className="flex flex-col items-center relative"
                 >
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-brand-gold p-2 mb-6 overflow-hidden bg-brand-red/10 relative">
-                     <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=80" alt="Marisa" className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                     <img src="/gallery-1.jpeg" alt="Marisa" className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
                   </div>
                   <h3 className="font-serif text-2xl text-brand-cream mb-2">Marisa Ekawati</h3>
                   <p className="font-script text-2xl text-brand-gold mb-4">"Marisa"</p>
@@ -353,7 +353,7 @@ export default function App() {
                   className="flex flex-col items-center relative"
                 >
                   <div className="w-40 h-40 md:w-48 md:h-48 rounded-full border-2 border-brand-gold p-2 mb-6 overflow-hidden bg-brand-red/10 relative">
-                     <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&q=80" alt="Atek" className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
+                     <img src="/gallery-2.jpeg" alt="Atek" className="w-full h-full object-cover rounded-full" referrerPolicy="no-referrer" />
                   </div>
                   <h3 className="font-serif text-2xl text-brand-cream mb-2">Suprianto, S.Kom</h3>
                   <p className="font-script text-2xl text-brand-gold mb-4">"Atek"</p>
@@ -380,29 +380,35 @@ export default function App() {
                 Our Gallery
               </motion.h2>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 pb-12">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pb-12 auto-rows-[200px] md:auto-rows-[300px]">
                 {[
-                  "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80",
-                  "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80",
-                  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=800&q=80",
-                  "https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80",
-                  "https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=800&q=80",
-                  "https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80"
-                ].map((src, index) => (
+                  "/gallery-1.jpeg",
+                  "/gallery-2.jpeg",
+                  "/gallery-3.jpeg",
+                  "/gallery-4.jpeg",
+                  "/gallery-5.jpeg"
+                ].map((src, index) => {
+                  let spanClass = "col-span-1 row-span-1";
+                  if (index === 0) {
+                    spanClass = "col-span-2 row-span-2";
+                  }
+                  
+                  return (
                   <motion.div
                     key={index}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true }}
                     variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0, transition: { duration: 0.6, delay: index * 0.1 } }
+                      hidden: { opacity: 0, scale: 0.95 },
+                      visible: { opacity: 1, scale: 1, transition: { duration: 0.8, delay: index * 0.15, ease: "easeOut" } }
                     }}
-                    className={`relative overflow-hidden rounded-md border border-brand-gold/30 aspect-[3/4] ${index === 1 || index === 4 ? 'md:translate-y-8' : ''}`}
+                    className={`relative overflow-hidden rounded-md border border-brand-gold/30 group ${spanClass}`}
                   >
-                    <img src={src} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" referrerPolicy="no-referrer" />
+                    <img src={src} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 ease-in-out" referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 border-2 border-transparent group-hover:border-brand-gold/40 transition-colors duration-500 rounded-md m-2"></div>
                   </motion.div>
-                ))}
+                )})}
               </div>
            </div>
         </section>
