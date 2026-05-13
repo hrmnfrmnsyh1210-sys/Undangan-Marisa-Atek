@@ -122,7 +122,7 @@ export default function App() {
   }, [isOpen]);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('1234567890');
+    navigator.clipboard.writeText('7155015497');
     setCopiedRekening(true);
     setTimeout(() => setCopiedRekening(false), 2000);
   };
@@ -612,8 +612,8 @@ export default function App() {
               >
                  <HornbillCorner className="absolute -top-12 -right-12 w-32 h-32 text-brand-gold opacity-20 pointer-events-none" />
                  <h4 className="font-serif font-bold text-xl mb-4 text-brand-gold">Bank BCA</h4>
-                 <p className="font-mono text-2xl tracking-widest text-brand-cream mb-2">123 456 7890</p>
-                 <p className="font-sans text-sm text-brand-cream/70 mb-6 uppercase tracking-wider">A.N. Marisa Ekawati</p>
+                 <p className="font-mono text-2xl tracking-widest text-brand-cream mb-2">7155015497</p>
+                 <p className="font-sans text-sm text-brand-cream/70 mb-6 uppercase tracking-wider">A.N. DARBY LAY</p>
                  
                  <button 
                   onClick={handleCopy}
