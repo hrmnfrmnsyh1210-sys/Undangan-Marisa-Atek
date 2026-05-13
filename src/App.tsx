@@ -67,7 +67,20 @@ const DayakBorder = ({ className = "" }: { className?: string }) => (
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [guestName, setGuestName] = useState("Tamu Undangan");
   const playerRef = useRef<YouTubePlayer | null>(null);
+  
+  useEffect(() => {
+    // Check if we are in the browser
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const to = params.get('to');
+      if (to) {
+        // Simple decode for URL encoding
+        setGuestName(decodeURIComponent(to.replace(/\+/g, ' ')));
+      }
+    }
+  }, []);
   
   const onPlayerReady = (event: YouTubeEvent) => {
     playerRef.current = event.target;
@@ -198,7 +211,7 @@ export default function App() {
               >
                 <p className="font-serif text-sm text-brand-cream/80 mb-1">Kepada Yth:</p>
                 <p className="font-serif text-sm text-brand-cream/80 mb-2">Bapak/Ibu/Saudara/i</p>
-                <h3 className="font-sans font-semibold text-lg text-brand-gold">Nama Tamu</h3>
+                <h3 className="font-sans font-semibold text-lg text-brand-gold">{guestName}</h3>
               </motion.div>
               
               <motion.button
